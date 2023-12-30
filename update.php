@@ -11,6 +11,7 @@ if ($result->num_rows > 0) {
     $message = $row['Message'];
     $date = $row['Date'];
     $gender = $row['Gender'];
+    $country = $row["Country"];
 } else {
     echo "No record found";
 }
@@ -31,13 +32,22 @@ $conn->close();
     <input type="date" id="date" name="date" value="<?php echo $date; ?>"><br><br>
     
     <label>Gender</label><br>
-    <input type="radio" id="male" name="gender" value="M" checked>
+    <input type="radio" id="male" name="gender" value="M" <?php if ($gender === 'M') echo 'checked'; ?>>
     <label for="male">Male</label><br>
-    <input type="radio" id="female" name="gender" value="F">
+    <input type="radio" id="female" name="gender" value="F" <?php if ($gender === 'F') echo 'checked' ?>>
     <label for="female">Female</label><br>
-    <input type="radio" id="other" name="gender" value="O">
+    <input type="radio" id="other" name="gender" value="O" <?php if ($gender === 'O') echo 'checked' ?> >
     <label for="other">Other</label><br><br>	
     
+    <label for="country">Choose a Country</label><br>
+    <select id="country" name="country">
+	<option value="Nepal" <?php if ($country === 'Nepal') echo 'selected'; ?>>Nepal</option>
+	<option value="India" <?php if ($country === 'India') echo 'selected'; ?>>India</option>
+	<option value="China" <?php if ($country === 'China') echo 'selected'; ?>>China</option>
+	<option value="USA" <?php if ($country === 'USA') echo 'selected'; ?>>USA</option>
+	<option value="Russia" <?php if ($country === 'Russia') echo 'selected'; ?>>Russia</option>
+     </select><br><br>
+	    
     <input type="submit" value="Update" name="update">
 </form>
 
@@ -51,7 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = $_POST['message'];
         $date = $_POST['date'];
         $gender = $_POST['gender'];
-        $sql = "UPDATE form SET Name='$name', Email='$email', Message='$message', Date='$date', Gender='$gender' WHERE id=$id";
+        $country = $_POST['country'];
+        $sql = "UPDATE form SET Name='$name', Email='$email', Message='$message', Date='$date', Gender='$gender', Country='$country' WHERE id=$id";
 	if ($conn->query($sql) === TRUE) {
             echo "Record updated successfully";
             header("Location: process.php");
