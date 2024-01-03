@@ -1,8 +1,6 @@
+<a href="index.php">Add Data</a>
 <?php
 include 'connection.php';
-$url = "http://localhost:81/crud/";
-echo "<button onclick='window.location.href=\"$url\"'>Add data</button>";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $email = $_POST["email"];
@@ -11,6 +9,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = $_POST["gender"];
     $country = $_POST["country"];
     
+    $nameValidation = "SELECT * FROM form WHERE Name = '$name'";
+    $nameResult = $conn->query($nameValidation);
+    if ($nameResult->num_rows > 0) {
+    	echo "Name already exist";
+    	exit();
+    }
+    
+    
+    $dateFormat = 'Y-m-d';
+    $dateObj = DateTime::createFromFormat($dateFormat, $date);
+    if ($dateObj == false) {
+    	echo "Invalid format of date";
+    }
+    echo $dateObj->format('Y-m-d');
+    echo "<br>";
+
     $check = "SELECT * FROM form WHERE Email='$email'";
     $result= $conn->query($check);
     if ($result->num_rows > 0) {
@@ -27,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }	
+
+
 $retrieve = "SELECT * FROM form";
 $result = $conn->query($retrieve);
 if ($result->num_rows > 0){
@@ -57,4 +73,5 @@ if ($result->num_rows > 0){
 		}
 	}
 ?>
+
 

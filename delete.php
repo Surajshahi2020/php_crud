@@ -1,6 +1,5 @@
 <?php
 include 'connection.php';
-
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
     $delete = "DELETE FROM form WHERE id = $id";
